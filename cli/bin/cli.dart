@@ -7,18 +7,17 @@ void main(List<String> arguments) {
     printUsage();
   } else if (arguments.first == 'version') {
     print('Dartpedia CLI version $version');
-  } else if (arguments.first == 'search') {
-    print('search command recognized!');
+  } else if (arguments.first == 'wikipedia') { // Changed to 'wikipedia'
+    // Pass all arguments *after* 'wikipedia' to searchWikipedia 
     final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
-    searchWikipedia(inputArgs);
+    searchWikipedia(inputArgs); // call searchWikipedia (no await nedded for main)
   } else {
     printUsage();
   }
 }
 
-void searchWikipedia(List<String>? arguments) async: { // added 'async' 
+void searchWikipedia(List<String>? arguments) async { 
   final String articleTitle; 
-
   // If the user didn't pass in argumets, request an article title. 
   if (arguments == null || arguments.isEmpty){
     print('Please provide an article title.'); 
@@ -37,10 +36,11 @@ void searchWikipedia(List<String>? arguments) async: { // added 'async'
   articleTitle = arguments.join(' ');
 }
   print('Looking up articles about "$articleTitle". Please wait.');
-  print('Here ya go!');
-  print('(Pretend this is an article about "$articleTitle")');
-}
 
+  // Call the API and await the result 
+  var articleContent = await getWikipediaArticle(articleTitle);
+  print(articleContent); // Print the full article response (raw JSON for now)
+}
 void printUsage() {
   print(
     "The following commands are valid: 'help', 'version', 'search <ARTICLE-TITLE>'"
