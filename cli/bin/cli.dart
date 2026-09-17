@@ -1,20 +1,32 @@
 import 'dart:io'; 
 import 'package:http/http.dart' as http; 
+import 'package:command_runner/command_runner.dart';
 
-const version = '0.0.1';
-void main(List<String> arguments) {
-  if (arguments.isEmpty || arguments.first  == 'help'){
-    printUsage();
-  } else if (arguments.first == 'version') {
-    print('Dartpedia CLI version $version');
-  } else if (arguments.first == 'wikipedia') { // Changed to 'wikipedia'
-    // Pass all arguments *after* 'wikipedia' to searchWikipedia 
-    final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
-    searchWikipedia(inputArgs); // call searchWikipedia (no await nedded for main)
-  } else {
-    printUsage();
-  }
+
+// const version = '0.0.1';
+// void main(List<String> arguments) {
+//   if (arguments.isEmpty || arguments.first  == 'help'){
+//     printUsage();
+//   } else if (arguments.first == 'version') {
+//     print('Dartpedia CLI version $version');
+//   } else if (arguments.first == 'wikipedia') { // Changed to 'wikipedia'
+//     // Pass all arguments *after* 'wikipedia' to searchWikipedia 
+//     final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
+//     searchWikipedia(inputArgs); // call searchWikipedia (no await nedded for main)
+//   } else {
+//     printUsage();
+//   }
+// }    
+//Replace above with:
+
+void main(List<String> arguments) async {
+  var runner = CommandRunner(); 
+  await runner.run(arguments);
 }
+
+
+
+
 
 void searchWikipedia(List<String>? arguments) async { 
   final String articleTitle; 
@@ -41,11 +53,16 @@ void searchWikipedia(List<String>? arguments) async {
   var articleContent = await getWikipediaArticle(articleTitle);
   print(articleContent); // Print the full article response (raw JSON for now)
 }
+
+
+
 void printUsage() {
   print(
     "The following commands are valid: 'help', 'version', 'search <ARTICLE-TITLE>'"
   );
 }
+
+
 
 // getwikipediaArticle that handles fetching datat from an external API 
 Future<String> getWikipediaArticle(String articleTitle) async {

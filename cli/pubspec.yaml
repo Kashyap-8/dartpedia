@@ -1,4 +1,5 @@
 name: cli
+publish_to: none
 description: A sample command-line application.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
@@ -8,8 +9,9 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  path: ^1.9.0
-  http: ^1.4.0
+  http: ^1.4.0 # Keep your existing http dependency
+  command_runner:
+    path: C:\Users\EigenService\Desktop\dartpedia\cli\command_runner
 
 dev_dependencies:
   lints: ^6.0.0
