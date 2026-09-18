@@ -19,14 +19,24 @@ import 'package:command_runner/command_runner.dart';
 // }    
 //Replace above with:
 
-void main(List<String> arguments) async {
-  var runner = CommandRunner(); 
-  await runner.run(arguments);
+// void main(List<String> arguments) async {
+//   var runner = CommandRunner(); 
+//   await runner.run(arguments);
+// }
+
+
+void main() {
+  final verboseOption = Option(
+'verbose',
+type: OptionType.flag,
+abbr: 'v',
+help: 'Display extra logging information.',
+);
+
+print('Defined option: ${verboseOption.name}');
+print('Usage: ${verboseOption.usage}'); 
+
 }
-
-
-
-
 
 void searchWikipedia(List<String>? arguments) async { 
   final String articleTitle; 
