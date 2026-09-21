@@ -1,6 +1,6 @@
 enum OptionType {flag, option}
 
-class Option {
+class Option extends CliElement {
   Option(
     this.name, {
     required this.type,
@@ -11,13 +11,30 @@ class Option {
   });
 
 
-  final String name;
+  // final String name;
+  // final OptionType type; 
+  // final String? help; 
+  // final String? abbr;
+  // final Object? defaultValue; 
+  // final String? valueHelp; 
+
+  @override
+  final String name; 
+
   final OptionType type; 
+
+  @override
   final String? help; 
-  final String? abbr;
+
+  final String? abbr; 
+
+  @override 
   final Object? defaultValue; 
+
+  @override
   final String? valueHelp; 
 
+  @override 
   String get usage {
     if (abbr != null) {
       return '-$abbr,--$name: $help';
@@ -54,4 +71,18 @@ class ArgResults {
     );
     return (option: mapEntry.key, input: mapEntry.value); 
   }
+}
+
+abstract class CliElement {
+  String get name; 
+  String? get help;
+
+  // In the case of flags, the default value is a bool. 
+  // In other options and commands, the default value is a String. 
+  // NB: flags are just Option objects that don't take arguments. 
+
+  Object? get defaultValue; 
+  String? get valueHelp; 
+
+  String get usage; 
 }
