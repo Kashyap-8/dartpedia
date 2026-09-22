@@ -50,7 +50,7 @@ class Option extends CliElement {
 }
 
 class ArgResults {
-  String? command; 
+  Command? command; 
   String? commandArg; 
   Map<Option, Object?> options = {}; 
 
@@ -89,9 +89,35 @@ abstract class CliElement {
   String? get valueHelp; 
 
   String get usage; 
+
+  @override
+  String get usage {
+    return '$name: $description'; 
+
+  }
 }
 
 abstract class Command extends CliElement {
+
+  // existing properties 
+  @override
+  String get name; 
+
+  String get description; 
+
+  bool get requiresArgument => false; 
+
+  late CommandRunner runner; 
+
+  @override
+  String? help; 
+
+  @override
+  String? defaultValue; 
+
+  @override
+  String? valueHelp; 
+
 
   final List<Option> _options = []; 
 
@@ -106,7 +132,7 @@ abstract class Command extends CliElement {
     String? valueHelp, 
     }){
 
-      
+
     _options.add(
       Option(
         name, 
