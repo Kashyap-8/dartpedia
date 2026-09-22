@@ -1,3 +1,5 @@
+import 'package:command_runner/command_runner.dart';
+
 enum OptionType {flag, option}
 
 class Option extends CliElement {
@@ -85,4 +87,25 @@ abstract class CliElement {
   String? get valueHelp; 
 
   String get usage; 
+}
+
+abstract class Command extends CliElement {
+  @override
+  String get name; 
+
+  String get description; 
+
+  bool get requiresArgument => false; 
+
+  late CommandRunner runner; 
+
+  @override
+  String? help; 
+
+  @override
+  String? defaultValue; 
+
+  @override
+  String? valueHelp; 
+
 }
