@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:command_runner/command_runner.dart';
 
 enum OptionType {flag, option}
@@ -90,22 +92,51 @@ abstract class CliElement {
 }
 
 abstract class Command extends CliElement {
-  @override
-  String get name; 
 
-  String get description; 
+  final List<Option> _options = []; 
 
-  bool get requiresArgument => false; 
+  UnmodifiableSetView<Option> get options => 
+    UnmodifiableSetView(_options.toSet());
 
-  late CommandRunner runner; 
 
-  @override
-  String? help; 
+  void addFlag(
+    String name, {
+    String? help, 
+    String? abbr, 
+    String? valueHelp, 
+    }){
 
-  @override
-  String? defaultValue; 
+      
+    _options.add(
+      Option(
+        name, 
+        help: help, 
+        abbr: abbr, 
+        defaultValue: false, 
+        valueHelp: valueHelp, 
+        type: OptionType.flag, 
+      ),
+    );
+  }
 
-  @override
-  String? valueHelp; 
+  void addOption(
+    String name, {
+    String? help, 
+    String? abbr, 
+    String? defaultValue,
+    String? valueHelp,
+    }){
 
+    
+    _options.add(
+      Option(
+        name,
+        help: help,
+        abbr: help, 
+        defaultValue: defaultValue,
+        valueHelp: valueHelp,
+        type: OptionType.option,
+        ),
+      );
+    }
 }
